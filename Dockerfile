@@ -61,5 +61,5 @@ ADD ./conf/supervisor/supervisord.conf /etc/supervisord.conf
 ADD ./conf/supervisor/supervisord_tomcat.sh /data/instances/tomcat/bin/supervisord_tomcat.sh
 RUN chmod 777 /data/instances/tomcat/bin/*.sh
 
-EXPOSE 80 443 8080 8443 9001
+EXPOSE 80
 CMD ["supervisord", "-n"]
