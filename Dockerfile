@@ -53,7 +53,7 @@ ADD ./conf/httpd/index.html /var/www/html/index.html
 
 # get src & package
 RUN mkdir -p /data/app
-RUN git clone https://github.com/Guuuo/java-hello-world.git /data/app/hello-world
+RUN git clone https://github.com/Guuuo/javaweb-hello-world.git /data/app/hello-world
 RUN cd /data/app/hello-world; mvn package
 RUN cp /data/app/hello-world/target/hello-world.war /data/instances/tomcat/webapps/hello-world.war
 RUN rm -rf /data/app
