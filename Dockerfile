@@ -48,8 +48,6 @@ ADD ./conf/httpd/index.html /data/wwwroot/index.html
 RUN mkdir -p /data/wwwconf
 COPY ./conf/httpd/wwwconf/* /data/wwwconf/
 ADD ./conf/httpd/httpd.conf /etc/httpd/conf/httpd.conf
-RUN mkdir -p /var/www/html
-ADD ./conf/httpd/index.html /var/www/html/index.html
 
 # get src & package
 RUN mkdir -p /data/app
