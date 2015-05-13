@@ -31,7 +31,7 @@ RUN rm -rf /tmp/tomcat.zip
 RUN mkdir /data
 RUN mv /tmp/apache-tomcat-$TOMCAT_VERSION /data/tomcat
 RUN chmod 777 /data/tomcat/bin/*.sh
-ADD ./config/tomcat/tomcat-users.xml /data/tomcat/conf/tomcat-users.xml
+ADD ./conf/tomcat/tomcat-users.xml /data/tomcat/conf/tomcat-users.xml
 
 #install maven
 ENV MAVEN_VERSION 3.2.5
