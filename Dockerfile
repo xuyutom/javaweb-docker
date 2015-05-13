@@ -44,12 +44,12 @@ ENV MAVEN_HOME /opt/apache-maven-$MAVEN_VERSION
 
 #config httpd
 RUN mkdir -p /data/wwwroot
-ADD httpd/index.html /data/wwwroot/index.html
+ADD ./conf/httpd/index.html /data/wwwroot/index.html
 RUN mkdir -p /data/wwwconf
-COPY httpd/wwwconf/* /data/wwwconf/
-ADD httpd/httpd.conf /etc/httpd/conf/httpd.conf
+COPY ./conf/httpd/wwwconf/* /data/wwwconf/
+ADD ./conf/httpd/httpd.conf /etc/httpd/conf/httpd.conf
 RUN mkdir -p /var/www/html
-ADD httpd/index.html /var/www/html/index.html
+ADD ./conf/httpd/index.html /var/www/html/index.html
 
 # get src & package
 RUN mkdir -p /data/app
@@ -59,8 +59,8 @@ RUN cp /data/app/hello-world/target/hello-world.war /data/instances/tomcat/webap
 RUN rm -rf /data/app
 
 #run
-ADD ./conf/supervisord.conf /etc/supervisord.conf
-ADD ./conf/supervisord_tomcat.sh /data/instances/tomcat/bin/supervisord_tomcat.sh
+ADD ./conf/supervisor/supervisord.conf /etc/supervisord.conf
+ADD ./conf/supervisor/supervisord_tomcat.sh /data/instances/tomcat/bin/supervisord_tomcat.sh
 RUN chmod 777 /data/instances/tomcat/bin/*.sh
 
 EXPOSE 80 443 8080 8443 9001
