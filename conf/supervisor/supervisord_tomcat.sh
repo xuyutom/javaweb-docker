@@ -8,7 +8,7 @@ function shutdown()
     unset LD_LIBRARY_PATH # Necessary in some cases
     unset JAVA_OPTS # Necessary in some cases
 
-    /data/instances/tomcat/bin/catalina.sh stop
+    /data/tomcat/bin/catalina.sh stop
 }
 
 date
@@ -22,7 +22,7 @@ export JAVA_OPTS="-XX:PermSize=256m -XX:MaxPermSize=256m -Xms128m -Xmx256m"
 # Uncomment to increase Tomcat's maximum heap allocation
 # export JAVA_OPTS=-Xmx512M $JAVA_OPTS
 
-. /data/instances/tomcat/bin/catalina.sh start
+. /data/tomcat/bin/catalina.sh start
 
 # Allow any signal which would kill a process to stop Tomcat
 trap shutdown HUP INT QUIT ABRT KILL ALRM TERM TSTP

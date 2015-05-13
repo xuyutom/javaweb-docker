@@ -28,9 +28,10 @@ RUN wget http://mirrors.cnnic.cn/apache/tomcat/tomcat-7/v$TOMCAT_VERSION/bin/apa
 #COPY ./soft/tomcat.zip /tmp/tomcat.zip
 RUN unzip /tmp/tomcat.zip -d /tmp/
 RUN rm -rf /tmp/tomcat.zip
-RUN mkdir -p /data/instances
-RUN mv /tmp/apache-tomcat-$TOMCAT_VERSION /data/instances/tomcat
-RUN chmod 777 /data/instances/tomcat/bin/*.sh
+RUN mkdir /data
+RUN mv /tmp/apache-tomcat-$TOMCAT_VERSION /data/tomcat
+RUN chmod 777 /data/tomcat/bin/*.sh
+ADD ./config/tomcat/tomcat-users.xml /data/tomcat/conf/tomcat-users.xml
 
 #install maven
 ENV MAVEN_VERSION 3.2.5
@@ -53,13 +54,13 @@ ADD ./conf/httpd/httpd.conf /etc/httpd/conf/httpd.conf
 RUN mkdir -p /data/app
 RUN git clone https://github.com/Guuuo/javaweb-hello-world.git /data/app/hello-world
 RUN cd /data/app/hello-world; mvn package
-RUN cp /data/app/hello-world/target/hello-world.war /data/instances/tomcat/webapps/hello-world.war
+RUN cp /data/app/hello-world/target/hello-world.war /data/tomcat/webapps/hello-world.war
 RUN rm -rf /data/app
 
 #run
 ADD ./conf/supervisor/supervisord.conf /etc/supervisord.conf
-ADD ./conf/supervisor/supervisord_tomcat.sh /data/instances/tomcat/bin/supervisord_tomcat.sh
-RUN chmod 777 /data/instances/tomcat/bin/*.sh
+ADD ./conf/supervisor/supervisord_tomcat.sh /data/tomcat/bin/supervisord_tomcat.sh
+RUN chmod 777 /data/tomcat/bin/*.sh
 
 EXPOSE 80
 CMD ["supervisord", "-n"]
