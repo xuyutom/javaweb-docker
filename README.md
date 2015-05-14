@@ -5,9 +5,9 @@ Usage:
 - Clone the Dockerfile:
 ``` bash
 git clone https://github.com/Guuuo/javaweb-docker.git
-``` bash
+```
 
 - Build it:
-```
+``` bash
 docker build -t guuuo/javaweb ./javaweb-docker
 ```
