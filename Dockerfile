@@ -14,7 +14,6 @@ RUN yum -y install httpd; yum clean all
 ENV JAVA_VERSION 8u45
 ENV BUILD_VERSION b14
 RUN wget --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/$JAVA_VERSION-$BUILD_VERSION/jdk-$JAVA_VERSION-linux-x64.rpm" -O /tmp/jdk-8-linux-x64.rpm
-#COPY ./soft/jdk.rpm /tmp/jdk-8-linux-x64.rpm
 RUN yum -y install /tmp/jdk-8-linux-x64.rpm
 RUN rm -rf /tmp/jdk-8-linux-x64.rpm
 RUN alternatives --install /usr/bin/java jar /usr/java/latest/bin/java 200000
@@ -25,7 +24,6 @@ ENV JAVA_HOME /usr/java/latest
 #install tomcat
 ENV TOMCAT_VERSION 7.0.61
 RUN wget http://mirrors.cnnic.cn/apache/tomcat/tomcat-7/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.zip -O /tmp/tomcat.zip
-#COPY ./soft/tomcat.zip /tmp/tomcat.zip
 RUN unzip /tmp/tomcat.zip -d /tmp/
 RUN rm -rf /tmp/tomcat.zip
 RUN mkdir /data
@@ -36,12 +34,12 @@ ADD ./conf/tomcat/tomcat-users.xml /data/tomcat/conf/tomcat-users.xml
 #install maven
 ENV MAVEN_VERSION 3.2.5
 RUN wget http://www.eu.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz -O /tmp/maven.tar.gz
-#COPY ./soft/maven.tar.gz /tmp/maven.tar.gz
-RUN tar -xvf /tmp/maven.tar.gz -C /opt/
+RUN tar -xvf /tmp/maven.tar.gz -C /tmp/
 RUN rm -rf /tmp/maven.tar.gz
-RUN ln -s /opt/apache-maven-$MAVEN_VERSION/bin/mvn /usr/bin/mvn
+RUN mv /tmp/apache-maven-$MAVEN_VERSION /data/maven
+RUN ln -s /data/maven/bin/mvn /usr/bin/mvn
 RUN mkdir -p /root/.m2
-ENV MAVEN_HOME /opt/apache-maven-$MAVEN_VERSION
+ENV MAVEN_HOME /data/maven
 
 #config httpd
 RUN mkdir -p /data/wwwroot
@@ -57,10 +55,10 @@ RUN cd /data/app/hello-world; mvn package
 RUN cp /data/app/hello-world/target/hello-world.war /data/tomcat/webapps/hello-world.war
 RUN rm -rf /data/app
 
-#run
+#config supervisor
 ADD ./conf/supervisor/supervisord.conf /etc/supervisord.conf
 ADD ./conf/supervisor/supervisord_tomcat.sh /data/tomcat/bin/supervisord_tomcat.sh
-RUN chmod 777 /data/tomcat/bin/*.sh
 
 EXPOSE 80
+
 CMD ["supervisord", "-n"]
