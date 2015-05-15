@@ -14,7 +14,7 @@ RUN mkdir -p /var/log/supervisor
 RUN yum -y install httpd; yum clean all
 
 #config httpd
-RUN mkdir -p /data/wwwroot
+RUN mkdir -p /data
 ADD conf/httpd/wwwroot /data/wwwroot
 ADD conf/httpd/wwwconf /data/wwwconf
 ADD conf/httpd/httpd.conf /etc/httpd/conf/httpd.conf
