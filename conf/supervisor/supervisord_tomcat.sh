@@ -14,7 +14,7 @@ date
 echo "Starting Tomcat"
 export CATALINA_PID=/tmp/$$
 export JAVA_HOME=/usr/java/default
-export JAVA_OPTS="-XX:PermSize=256m -XX:MaxPermSize=256m -Xms128m -Xmx256m"
+export JAVA_OPTS="-Xms128m -Xmx192m"
 
 /data/tomcat/bin/catalina.sh start
 
