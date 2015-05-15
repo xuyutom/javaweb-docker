@@ -60,6 +60,7 @@ RUN rm -rf /data/app
 #config supervisor
 ADD conf/supervisor/supervisord.conf /etc/supervisord.conf
 ADD conf/supervisor/supervisord_tomcat.sh /data/tomcat/bin/supervisord_tomcat.sh
+RUN chmod 777 /data/tomcat/bin/*.sh
 
 EXPOSE 80
 
